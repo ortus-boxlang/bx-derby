@@ -1,4 +1,4 @@
-name: @MODULE_NAME@ Snapshots
+name: BoxLang Apache Derby Snapshots
 
 on:
   push:
@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 21
+          java-version: 17
 
       - name: Format Java Source
         run: ./gradlew spotlessApply --stacktrace
