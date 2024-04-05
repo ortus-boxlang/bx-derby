@@ -81,11 +81,12 @@ javadoc.finalizedBy( zipJavadocs )
  * This generates the META-INF/services files for the ServiceLoader as part of the `build` task
  */
 serviceLoader {
-    serviceInterface 'ortus.boxlang.runtime.bifs.BIF'
-    serviceInterface 'ortus.boxlang.runtime.components.Component'
-    serviceInterface 'ortus.boxlang.runtime.async.tasks.IScheduler'
-    serviceInterface 'ortus.boxlang.runtime.cache.providers.ICacheProvider'
-	serviceInterface 'ortus.boxlang.runtime.events.IInterceptor'
+	// ENABLE THE ONES YOU USE
+    // serviceInterface 'ortus.boxlang.runtime.bifs.BIF'
+    // serviceInterface 'ortus.boxlang.runtime.components.Component'
+    // serviceInterface 'ortus.boxlang.runtime.async.tasks.IScheduler'
+    // serviceInterface 'ortus.boxlang.runtime.cache.providers.ICacheProvider'
+	// serviceInterface 'ortus.boxlang.runtime.events.IInterceptor'
 }
 
 jar {
@@ -126,21 +127,27 @@ task createModuleStructure(type: Copy) {
     }
     from( 'src/main/bx' ) {
 		include '**/*.bx'
+		// Token Replacements Go Here
+		filter( line -> line.replaceAll( '@build.version@', project.version ) )
+		if( project.branch == "development" ){
+			filter( line -> line.replaceAll( '\\+@build.number@', '-SNAPSHOT' ) )
+		} else {
+			filter( line -> line.replaceAll( '@build.number@', project.buildID ) )
+		}
     }
     from( '.' ) {
         include 'box.json'
 		include 'readme.md'
 		include 'changelog.md'
-
+		// Token Replacements Go Here
+		filter( line -> line.replaceAll( '@build.version@', project.version ) )
+		if( project.branch == "development" ){
+			filter( line -> line.replaceAll( '\\+@build.number@', '-SNAPSHOT' ) )
+		} else {
+			filter( line -> line.replaceAll( '@build.number@', project.buildID ) )
+		}
     }
 
-	// Token Replacements Go Here
-	filter( line -> line.replaceAll( '@build.version@', project.version ) )
-	if( project.branch == "development" ){
-		filter( line -> line.replaceAll( '\\+@build.number@', '-SNAPSHOT' ) )
-	} else {
-		filter( line -> line.replaceAll( '@build.number@', project.buildID ) )
-	}
     destinationDir = file( 'build/module' )
 }
 task zipModuleStructure( type: Zip ) {
