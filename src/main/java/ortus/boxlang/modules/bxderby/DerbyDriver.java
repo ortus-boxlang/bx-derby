@@ -17,58 +17,57 @@
  */
 package ortus.boxlang.modules.bxderby;
 
-import java.util.Map;
-
 import ortus.boxlang.runtime.config.segments.DatasourceConfig;
+import ortus.boxlang.runtime.dynamic.casters.StringCaster;
 import ortus.boxlang.runtime.jdbc.drivers.DatabaseDriverType;
-import ortus.boxlang.runtime.jdbc.drivers.IJDBCDriver;
+import ortus.boxlang.runtime.jdbc.drivers.GenericJDBCDriver;
 import ortus.boxlang.runtime.scopes.Key;
 import ortus.boxlang.runtime.types.IStruct;
 import ortus.boxlang.runtime.types.Struct;
-import ortus.boxlang.runtime.types.util.StructUtil;
 
-public class DerbyDriver implements IJDBCDriver {
+public class DerbyDriver extends GenericJDBCDriver {
 
-	/**
-	 * The name of the driver
-	 */
-	protected static final Key					NAME				= new Key( "Derby" );
-
-	/**
-	 * The class name of the driver
-	 */
-	protected static final String				DRIVER_CLASS_NAME	= "org.apache.derby.jdbc.EmbeddedDriver";
-
-	/**
-	 * The default delimiter for the custom parameters
-	 */
-	protected static final String				DEFAULT_DELIMITER	= ";";
-
-	/**
-	 * The default parameters for the connection URL
-	 */
-	protected static final Map<String, String>	DEFAULT_PARAMS		= Map.of(
-	    "create", "true"
+	public static final String	DEFAULT_PROTOCOL	= "directory";
+	public static final IStruct	AVAILABLE_PROTOCOLS	= Struct.of(
+	    "directory", "The database is in a directory",
+	    "classpath", "The database is in the classpath",
+	    "memory", "The database is in memory",
+	    "jar", "The database is in a jar file"
 	);
 
-	@Override
-	public Key getName() {
-		return NAME;
-	}
+	/**
+	 * The protocol in use for the jdbc connection
+	 */
+	protected String			protocol			= DEFAULT_PROTOCOL;
 
-	@Override
-	public DatabaseDriverType getType() {
-		return DatabaseDriverType.DERBY;
+	/**
+	 * Constructor
+	 */
+	public DerbyDriver() {
+		super();
+		this.name					= new Key( "Derby" );
+		this.type					= DatabaseDriverType.DERBY;
+		// org.apache.derby.jdbc.ClientDriver For client connections
+		this.driverClassName		= "org.apache.derby.jdbc.EmbeddedDriver";
+		this.defaultDelimiter		= ";";
+		this.defaultCustomParams	= Struct.of(
+		    "create", "true"
+		);
+		this.defaultProperties		= Struct.of();
 	}
 
 	/**
-	 * The class name of the driver
+	 * Build the connection URL for the Apache Derby JDBC Driver
+	 * <p>
+	 *
+	 * <pre>
+	 * jdbc:derby:[subsubprotocol:][databaseName][;attribute=value]*
+	 * </pre>
+	 *
+	 * @param config The DatasourceConfig object
+	 *
+	 * @return The connection URL
 	 */
-	@Override
-	public String getClassName() {
-		return DRIVER_CLASS_NAME;
-	}
-
 	@Override
 	public String buildConnectionURL( DatasourceConfig config ) {
 		// Validate the database
@@ -77,20 +76,40 @@ public class DerbyDriver implements IJDBCDriver {
 			throw new IllegalArgumentException( "The database property is required for the Apache Derby JDBC Driver" );
 		}
 
-		// Custom parameters
-		IStruct params = new Struct( DEFAULT_PARAMS );
-		// If the custom parameters are a string, convert them to a struct
-		if ( config.properties.get( Key.custom ) instanceof String castedParams ) {
-			config.properties.put( Key.custom, StructUtil.fromQueryString( castedParams, DEFAULT_DELIMITER ) );
+		// Do we have a protcol
+		this.protocol = ( String ) config.properties.getOrDefault( "protocol", DEFAULT_PROTOCOL );
+		// Verify or throw an exception
+		if ( !AVAILABLE_PROTOCOLS.containsKey( this.protocol ) ) {
+			throw new IllegalArgumentException(
+			    String.format(
+			        "The protocol '%s' is not valid for the Apache Derby JDBC Driver. Available protocols are %s",
+			        this.protocol,
+			        AVAILABLE_PROTOCOLS.keySet().toString()
+			    )
+			);
 		}
-		// Add the custom parameters
-		config.properties.getAsStruct( Key.custom ).forEach( params::put );
 
-		// Build the Generic connection URL
+		// Host Check
+		String	host	= ( String ) config.properties.getOrDefault( "host", "" );
+		String	port	= StringCaster.cast( config.properties.getOrDefault( "port", "" ) );
+
+		// If we have a host use the Client URL Builder
+		if ( !host.isEmpty() ) {
+			return String.format(
+			    "jdbc:derby://%s:%s/%s;%s",
+			    host,
+			    port,
+			    database,
+			    customParamsToQueryString( config )
+			);
+		}
+
+		// Build the Embedded URL
 		return String.format(
-		    "jdbc:derby:%s;%s",
+		    "jdbc:derby:%s:%s;%s",
+		    this.protocol,
 		    database,
-		    StructUtil.toQueryString( params, DEFAULT_DELIMITER )
+		    customParamsToQueryString( config )
 		);
 	}
 

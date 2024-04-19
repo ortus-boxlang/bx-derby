@@ -43,7 +43,20 @@ public class DerbyDriverTest {
 		config.properties.put( "driver", "derby" );
 		config.properties.put( "database", "mydb" );
 
-		String expectedURL = "jdbc:derby:mydb;create=true";
+		String expectedURL = "jdbc:derby:directory:mydb;create=true";
+		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
+	}
+
+	@Test
+	@DisplayName( "Test connection with a memory protocol" )
+	public void testBuildConnectionURLMemoryProtocol() {
+		DerbyDriver			driver	= new DerbyDriver();
+		DatasourceConfig	config	= new DatasourceConfig();
+		config.properties.put( "driver", "derby" );
+		config.properties.put( "protocol", "memory" );
+		config.properties.put( "database", "mydb" );
+
+		String expectedURL = "jdbc:derby:memory:mydb;create=true";
 		assertThat( driver.buildConnectionURL( config ) ).isEqualTo( expectedURL );
 	}
 
