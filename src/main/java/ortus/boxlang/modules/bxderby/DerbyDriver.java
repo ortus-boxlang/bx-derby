@@ -34,8 +34,19 @@ public class DerbyDriver implements IJDBCDriver {
 	 */
 	protected static final Key					NAME				= new Key( "Derby" );
 
+	/**
+	 * The class name of the driver
+	 */
+	protected static final String				DRIVER_CLASS_NAME	= "org.apache.derby.jdbc.EmbeddedDriver";
+
+	/**
+	 * The default delimiter for the custom parameters
+	 */
 	protected static final String				DEFAULT_DELIMITER	= ";";
 
+	/**
+	 * The default parameters for the connection URL
+	 */
 	protected static final Map<String, String>	DEFAULT_PARAMS		= Map.of(
 	    "create", "true"
 	);
@@ -55,7 +66,7 @@ public class DerbyDriver implements IJDBCDriver {
 	 */
 	@Override
 	public String getClassName() {
-		return "org.apache.derby.jdbc.EmbeddedDriver";
+		return DRIVER_CLASS_NAME;
 	}
 
 	@Override
