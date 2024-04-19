@@ -1,7 +1,6 @@
 .gradle
 build/**
 !gradle/wrapper/gradle-wrapper.jar
-derby.log
 
 ### IntelliJ IDEA ###
 .idea/
@@ -11,5 +10,4 @@ derby.log
 
 ### BOXLANG ###
 /libs/
-src/test/resources/libs/*
-!src/test/resources/libs/.gitkeep
+src/test/resources/libs/

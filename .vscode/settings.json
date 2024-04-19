@@ -17,10 +17,8 @@
 		"editor.insertSpaces": false,
 		"editor.tabSize": 4
 	},
-	"editor.formatOnSave": false,
+	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "explicit"
-	},
-	"editor.defaultFormatter": null
+	}
 }
-
