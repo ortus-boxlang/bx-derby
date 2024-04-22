@@ -27,8 +27,8 @@ import ortus.boxlang.runtime.types.Struct;
 
 public class DerbyDriver extends GenericJDBCDriver {
 
-	public static final String	DEFAULT_PROTOCOL	= "directory";
-	public static final IStruct	AVAILABLE_PROTOCOLS	= Struct.of(
+	protected static final String	DEFAULT_PROTOCOL	= "directory";
+	protected static final IStruct	AVAILABLE_PROTOCOLS	= Struct.of(
 	    "directory", "The database is in a directory",
 	    "classpath", "The database is in the classpath",
 	    "memory", "The database is in memory",
@@ -38,7 +38,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 	/**
 	 * The protocol in use for the jdbc connection
 	 */
-	protected String			protocol			= DEFAULT_PROTOCOL;
+	protected String				protocol			= DEFAULT_PROTOCOL;
 
 	/**
 	 * Constructor
@@ -78,6 +78,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 
 		// Do we have a protcol
 		this.protocol = ( String ) config.properties.getOrDefault( "protocol", DEFAULT_PROTOCOL );
+
 		// Verify or throw an exception
 		if ( !AVAILABLE_PROTOCOLS.containsKey( this.protocol ) ) {
 			throw new IllegalArgumentException(
