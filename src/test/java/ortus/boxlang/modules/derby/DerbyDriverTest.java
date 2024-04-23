@@ -1,4 +1,4 @@
-package ortus.boxlang.modules.bxderby;
+package ortus.boxlang.modules.derby;
 
 import static com.google.common.truth.Truth.assertThat;
 
