@@ -17,7 +17,7 @@
 		"moduleName": "derby"
 	},
 	"keywords": ["boxlang"],
-	"unlisted": true,
+	"listed": false,
 	"private": false,
 	"license": [
 		{
