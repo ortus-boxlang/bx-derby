@@ -114,8 +114,8 @@ public class DerbyDriverTest {
 		    Key.of( "derby" ),
 		    DatasourceConfig.fromStruct( Struct.of(
 		        "name", "derby",
-		        "driver", "derby",
 		        "properties", Struct.of(
+		            "driver", "derby",
 		            "database", "testDB",
 		            "protocol", "memory"
 		        )
