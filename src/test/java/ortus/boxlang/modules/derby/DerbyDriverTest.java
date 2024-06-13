@@ -112,14 +112,14 @@ public class DerbyDriverTest {
 		// Register a named datasource
 		runtime.getConfiguration().runtime.datasources.put(
 		    Key.of( "derby" ),
-		    DatasourceConfig.fromStruct( Struct.of(
-		        "name", "derby",
-		        "properties", Struct.of(
+		    new DatasourceConfig(
+		        "derby",
+		        Struct.of(
 		            "driver", "derby",
 		            "database", "testDB",
 		            "protocol", "memory"
 		        )
-		    ) )
+		    )
 		);
 
 		// @formatter:off
