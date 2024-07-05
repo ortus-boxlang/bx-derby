@@ -34,7 +34,7 @@ dependencies {
 	// You must run `./gradle build -x test` in the BoxLang project
     // compileOnly files( 'src/test/resources/libs/boxlang-websupport-1.0.0.jar' )
     compileOnly files( 'src/test/resources/libs/boxlang-1.0.0-all.jar' )
-	implementation 'org.apache.derby:derby:10.16.1.1'
+	implementation 'org.apache.derby:derby:10.17.1.0'
 
     // Testing Dependencies
     // testImplementation files( 'src/test/resources/libs/boxlang-websupport-1.0.0.jar' )
