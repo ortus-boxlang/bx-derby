@@ -50,8 +50,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 		this.driverClassName		= "org.apache.derby.jdbc.EmbeddedDriver";
 		this.defaultDelimiter		= ";";
 		this.defaultURIDelimiter	= ";";
-		this.defaultCustomParams	= Struct.of(
-		    "create", "true" );
+		this.defaultCustomParams	= Struct.of( "create", "true" );
 		this.defaultProperties		= Struct.of();
 	}
 
