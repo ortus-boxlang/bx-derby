@@ -32,8 +32,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 	    "directory", "The database is in a directory",
 	    "classpath", "The database is in the classpath",
 	    "memory", "The database is in memory",
-	    "jar", "The database is in a jar file"
-	);
+	    "jar", "The database is in a jar file" );
 
 	/**
 	 * The protocol in use for the jdbc connection
@@ -50,9 +49,8 @@ public class DerbyDriver extends GenericJDBCDriver {
 		// org.apache.derby.jdbc.ClientDriver For client connections
 		this.driverClassName		= "org.apache.derby.jdbc.EmbeddedDriver";
 		this.defaultDelimiter		= ";";
-		this.defaultCustomParams	= Struct.of(
-		    "create", "true"
-		);
+		this.defaultURIDelimiter	= ";";
+		this.defaultCustomParams	= Struct.of( "create", "true" );
 		this.defaultProperties		= Struct.of();
 	}
 
@@ -85,9 +83,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 			    String.format(
 			        "The protocol '%s' is not valid for the Apache Derby JDBC Driver. Available protocols are %s",
 			        this.protocol,
-			        AVAILABLE_PROTOCOLS.keySet().toString()
-			    )
-			);
+			        AVAILABLE_PROTOCOLS.keySet().toString() ) );
 		}
 
 		// Host Check
@@ -101,8 +97,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 			    host,
 			    port,
 			    database,
-			    customParamsToQueryString( config )
-			);
+			    customParamsToQueryString( config ) );
 		}
 
 		// Build the Embedded URL
@@ -110,8 +105,7 @@ public class DerbyDriver extends GenericJDBCDriver {
 		    "jdbc:derby:%s:%s;%s",
 		    this.protocol,
 		    database,
-		    customParamsToQueryString( config )
-		);
+		    customParamsToQueryString( config ) );
 	}
 
 }
