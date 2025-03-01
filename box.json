@@ -3,13 +3,13 @@
 	"version": "@build.version@+@build.number@",
 	"location": "https://downloads.ortussolutions.com/ortussolutions/boxlang-modules/bx-derby/@build.version@/bx-derby-@build.version@.zip",
 	"author": "Ortus Solutions",
-	"homepage": "https://github.com/boxlang-modules/bx-derby",
-	"documentation": "https://github.com/boxlang-modules/bx-derby",
+	"homepage": "https://github.com/ortus-boxlang/bx-derby",
+	"documentation": "https://github.com/ortus-boxlang/bx-derby",
 	"repository": {
 		"type": "git",
-		"URL": "https://github.com/boxlang-modules/bx-derby"
+		"URL": "https://github.com/ortus-boxlang/bx-derby"
 	},
-	"bugs": "https://github.com/boxlang-modules/bx-derby/issues",
+	"bugs": "https://github.com/ortus-boxlang/bx-derby/issues",
 	"slug": "bx-derby",
 	"shortDescription": "BoxLang module for Apache Derby database connectivity",
 	"type": "boxlang-modules",
