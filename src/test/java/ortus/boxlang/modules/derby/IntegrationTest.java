@@ -37,6 +37,8 @@ public class IntegrationTest extends BaseIntegrationTest {
 		// Then
 		assertThat( moduleService.getRegistry().containsKey( moduleName ) ).isTrue();
 
+		context.clearConfigCache();
+
 		// Register a named datasource
 		runtime.getConfiguration().datasources.put(
 		    Key.of( "derby" ),
