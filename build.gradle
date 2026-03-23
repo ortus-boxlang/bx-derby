@@ -16,8 +16,6 @@ plugins {
 /**
  * Project Properties
  */
-sourceCompatibility = jdkVersion
-targetCompatibility = jdkVersion
 ext {
 	buildID = System.getenv( 'BUILD_ID' ) ?: '0'
 	branch = System.getenv( 'BRANCH' ) ?: 'development'
@@ -71,6 +69,9 @@ dependencies {
 }
 
 java {
+	// Set Java version compatibility, Gradle 9-style.
+	sourceCompatibility = jdkVersion
+	targetCompatibility = jdkVersion
     // Produces a javadocs jar
 	withJavadocJar()
 }
@@ -79,7 +80,7 @@ compileJava {
 	// Compiler Options
 	options.incremental = true
 	options.encoding = 'UTF-8'
-	options.debug()
+	options.debug = true
 }
 
 compileTestJava{
