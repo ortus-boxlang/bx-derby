@@ -62,7 +62,8 @@ dependencies {
 		compileOnly files( "src/test/resources/libs/${boxlangJarName}" )
 		testImplementation files( "src/test/resources/libs/${boxlangJarName}" )
 	} else {
-		compileOnly "io.boxlang:boxlang:${boxlangVersion}"
+		// no snapshots on maven
+		compileOnly "io.boxlang:boxlang:${boxlangVersion.replaceAll(/-snapshot/, '')}"
 	}
 
 	// Derby
