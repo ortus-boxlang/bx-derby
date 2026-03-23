@@ -13,7 +13,7 @@ env:
 
 jobs:
   tests:
-    name: Tests ${{ github.event.repository.name }}
+    name: Tests ${{ github.event.repository.name }} on ${{ matrix.os }} with Boxlang ${{ matrix.boxlangVersion }} 
     runs-on: ${{ matrix.os }}
     env:
       DB_USER: root
@@ -43,9 +43,9 @@ jobs:
 
       - name: Test Module
         run: |
-          gradle downloadBoxLang -PboxlangVersion=${{ matrix.boxlangVersion }}
+          gradle downloadBoxLang -PboxlangVersion="${{ matrix.boxlangVersion }}"
           # this is done in order to build the module structure before testing
-          gradle shadowJar test --stacktrace --console=plain -PboxlangVersion=${{ matrix.boxlangVersion }}
+          gradle shadowJar test --stacktrace --console=plain -PboxlangVersion="${{ matrix.boxlangVersion }}"
 
       - name: Upload Test Results
         if: always()
