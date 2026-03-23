@@ -43,7 +43,7 @@ jobs:
 
       - name: Test Module
         run: |
-          gradle downloadBoxLang
+          gradle downloadBoxLang -PboxlangVersion=${{ matrix.boxlangVersion }}
           # this is done in order to build the module structure before testing
           gradle shadowJar test --stacktrace --console=plain -PboxlangVersion=${{ matrix.boxlangVersion }}
 
